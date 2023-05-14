@@ -23,6 +23,16 @@ addButton.addEventListener('click', function() {
     addMessage.value = '';
 });
 
+
+function removeListItem (event) {
+    console.log(event.target.id.split('_')[1]);
+    document.getElementById(`list_${event.target.id.split('_')[1]}`).remove();
+    todoList.splice(event.target.id.split('_')[1], 1);
+    console.log(todoList);
+    localStorage.setItem('todo', JSON.stringify(todoList));
+    };
+
+
 function displayMessages(){
     let displayMessage = '';
     let class_arrea = [];
@@ -32,19 +42,21 @@ function displayMessages(){
             <div><input type='checkbox' id='item_${i}' ${item.checked ? 'checked' : ''}>
             <label for='item_${i}'>${item.todo}</label></div>
             <div><i id='edit_${i}' class="fa-regular fa-pen-to-square"></i>
-            <i id='delete_${i}' class="fa-regular fa-trash-can"></i>
-        </li></div>
-        `;
+            <i id='delete_${i}' onclick='removeListItem(event)' class="fa-regular fa-trash-can delete"></i>
+        </li>`;
         todo.innerHTML = displayMessage;
+        console.log(document.getElementById(`list_${i}`));
         class_arrea.push(i);
     });
 }
 
-//     let item_delete = document.querySelector('#delete_0');
-//     let list = document.querySelector('#list_0')
-//     item_delete.addEventListener('click', function name(params) {
-//         list.remove();
-// });
+    // let item_delete = document.querySelector('#delete_0');
+    // let list = document.querySelector('#list_0');
+    // [].forEach.call(document.querySelectorAll('.delete'), (elem) => {
+    // elem.addEventListener('click', (event) => {
+    //     document.getElementById(`list_${i}`).addEventListener('click', (event) => removeListItem(event));
+    //     })
+    // });;
 
 todo.addEventListener('change', function(event) {
     let valueLabel = todo.querySelector('[for='+ event.target.getAttribute('id') +']').innerHTML;
